@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
+
+import CreateRawMaterial from "./pages/CreateRawMaterial";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" exact element={<h1>Crear pedido</h1>}></Route>
+        <Route path="/lista-pedidos" exact element={<h1>Pedidos</h1>}></Route>
+        <Route path="/lista-clientes" exact element={<h1>Clientes</h1>}></Route>
+        <Route path="/materias-primas" exact element={<h1>MP</h1>}></Route>
+        <Route path="/productos" exact element={<h1>productos</h1>}></Route>
+        <Route path="/inventario" exact element={<h1>inventario</h1>}></Route>
+        <Route path="/balance" exact element={<h1>balance</h1>}></Route>
+        <Route
+          path="/nueva-materia-prima"
+          exact
+          element={<CreateRawMaterial />}></Route>
+        <Route
+          path="/nuevo-producto"
+          exact
+          element={<h1> crear producto</h1>}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
