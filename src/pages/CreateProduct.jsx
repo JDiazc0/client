@@ -11,7 +11,7 @@ export default function CreateProduct() {
   const [selectedMaterial, setSelectedMaterial] = useState("");
   const [quantity, setQuantity] = useState("");
   const [rawMaterials, setRawMaterials] = useState([]);
-  const titles = ["Materias Primas", "Cantidad"];
+  const titles = ["Materias Primas", "Cantidad (gr)"];
 
   const handleAdd = () => {
     if (selectedMaterial && quantity) {
@@ -25,6 +25,12 @@ export default function CreateProduct() {
       setSelectedMaterial("");
       setQuantity("");
     }
+  };
+
+  const handleDelete = () => {
+    const newRawMaterials = [...rawMaterials];
+    newRawMaterials.pop();
+    setRawMaterials(newRawMaterials);
   };
 
   useEffect(() => {
@@ -51,7 +57,7 @@ export default function CreateProduct() {
                   placeholder="Ex: Helado de pollo"
                   labeltext="Nombre"
                   type="text"
-                  required="true"
+                  required={true}
                 />
                 <Controls.MySelector
                   label="Materia prima"
@@ -68,14 +74,23 @@ export default function CreateProduct() {
                     size={150}
                     onClick={handleAdd}
                   />
-                  <Controls.MyButton text="Eliminar" type="button" size={150} />
+                  {rawMaterials.length >= 1 && (
+                    <Controls.MyButton
+                      text="Eliminar"
+                      type="button"
+                      size={150}
+                      onClick={handleDelete}
+                    />
+                  )}
                 </div>
-                <Controls.MyTable titles={titles} content={rawMaterials} />
+                {rawMaterials.length >= 1 && (
+                  <Controls.MyTable titles={titles} content={rawMaterials} />
+                )}
                 <Controls.InputNew
                   placeholder="Ex: $ 3000"
                   labeltext="Precio"
                   type="number"
-                  required="true"
+                  required={true}
                 />
                 <Controls.MyButton
                   text="Enviar"
