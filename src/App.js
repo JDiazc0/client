@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 
 import CreateRawMaterial from "./pages/CreateRawMaterial";
+import CreateProduct from "./pages/CreateProduct";
 
 function App() {
   return (
@@ -18,10 +19,7 @@ function App() {
           path="/nueva-materia-prima"
           exact
           element={<CreateRawMaterial />}></Route>
-        <Route
-          path="/nuevo-producto"
-          exact
-          element={<h1> crear producto</h1>}></Route>
+        <Route path="/nuevo-producto" exact element={<CreateProduct />}></Route>
       </Routes>
     </BrowserRouter>
   );

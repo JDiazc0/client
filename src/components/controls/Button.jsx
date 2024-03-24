@@ -3,10 +3,14 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/system";
 
 export default function MyButton(props) {
-  const { type, text, variant } = props;
+  const { type, text, variant, size, onClick } = props;
 
   return (
-    <StyledButton type={type} variant={variant}>
+    <StyledButton
+      type={type}
+      variant={variant}
+      sx={{ width: size }}
+      onClick={onClick}>
       {text}
     </StyledButton>
   );

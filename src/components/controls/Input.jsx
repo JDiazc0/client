@@ -4,6 +4,20 @@ import { Input, inputClasses } from "@mui/base/Input";
 import { styled } from "@mui/system";
 import clsx from "clsx";
 
+export default function InputNew(props) {
+  const { placeholder, labeltext, type, required, onChange } = props;
+
+  // Verifica si se proporcionó el atributo "required"
+  const isRequired = required !== undefined && required;
+
+  return (
+    <FormControl required={isRequired}>
+      <Label>{labeltext}</Label>
+      <StyledInput placeholder={placeholder} type={type} onChange={onChange} />
+    </FormControl>
+  );
+}
+
 const StyledInput = styled(Input)(
   ({ theme }) => `
 
@@ -94,17 +108,3 @@ const grey = {
   800: "#303740",
   900: "#1C2025",
 };
-
-export default function InputNew(props) {
-  const { placeholder, labeltext, type, required, onChange } = props;
-
-  // Verifica si se proporcionó el atributo "required"
-  const isRequired = required !== undefined && required;
-
-  return (
-    <FormControl required={isRequired}>
-      <Label>{labeltext}</Label>
-      <StyledInput placeholder={placeholder} type={type} onChange={onChange} />
-    </FormControl>
-  );
-}
