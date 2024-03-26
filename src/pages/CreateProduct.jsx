@@ -11,7 +11,9 @@ export default function CreateProduct() {
   const [selectedMaterial, setSelectedMaterial] = useState("");
   const [quantity, setQuantity] = useState("");
   const [rawMaterials, setRawMaterials] = useState([]);
+
   const titles = ["Materias Primas", "Cantidad (gr)"];
+  const fields = ["name", "quantity"];
 
   const handleAdd = () => {
     if (selectedMaterial && quantity) {
@@ -84,7 +86,11 @@ export default function CreateProduct() {
                   )}
                 </div>
                 {rawMaterials.length >= 1 && (
-                  <Controls.MyTable titles={titles} content={rawMaterials} />
+                  <Controls.MyTable
+                    titles={titles}
+                    content={rawMaterials}
+                    fields={fields}
+                  />
                 )}
                 <Controls.InputNew
                   placeholder="Ex: $ 3000"

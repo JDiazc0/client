@@ -7,7 +7,6 @@ import clsx from "clsx";
 export default function InputNew(props) {
   const { placeholder, labeltext, type, required, onChange } = props;
 
-  // Verifica si se proporcionó el atributo "required"
   const isRequired = required !== undefined && required;
 
   return (
