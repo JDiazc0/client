@@ -10,9 +10,11 @@ import Controls from "../components/controls/Controls";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import "../styles/RawMaterials.css";
 
 import getRawMaterial from "../libs/getRawMaterial";
+import deleteRawMaterial from "../libs/deleteRawMaterial";
 
 export default function RawMaterials() {
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -45,9 +47,18 @@ export default function RawMaterials() {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const res = await deleteRawMaterial(data[selectedRow]._id);
+      console.log("Delete successful", res);
+      fetchData();
+    } catch (e) {
+      console.error("Error deleting raw material", e);
+    }
+  };
+
   const handleRowSelect = (index) => {
     setSelectedRow(index);
-    console.log(data[index]);
   };
 
   return (
@@ -86,6 +97,7 @@ export default function RawMaterials() {
                 <UpdateRawMaterial
                   data={data[selectedRow]}
                   refreshData={fetchData}
+                  hide={() => setIsUpdateVisible(false)}
                 />
               </Grid>
             </CSSTransition>
@@ -113,6 +125,14 @@ export default function RawMaterials() {
             onClick={handleUpdate}
             x="20px"
             y="100px"
+          />
+        )}
+        {selectedRow !== null && (
+          <Controls.MyFab
+            icon={<DeleteIcon />}
+            onClick={handleDelete}
+            x="20px"
+            y="180px"
           />
         )}
       </Box>
