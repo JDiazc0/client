@@ -4,7 +4,7 @@ import Controls from "./controls/Controls";
 import uploadRawMaterial from "../libs/uploadRawMaterial";
 
 export default function CreateRawMaterial(props) {
-  const { refreshData } = props;
+  const { refreshData, hide } = props;
   const [name, setName] = useState("");
   const [cost, setCost] = useState("");
   const [weight, setWeight] = useState("");
@@ -20,6 +20,7 @@ export default function CreateRawMaterial(props) {
       );
       console.log("Upload successful", response);
       refreshData();
+      hide();
     } catch (error) {
       console.error("Error uploading raw materials", error);
     }
@@ -48,7 +49,7 @@ export default function CreateRawMaterial(props) {
           type="number"
           onChange={(e) => setCost(e.target.value)}
         />
-        <Controls.MyButton text="Enviar" variant="contained" type="submit" />
+        <Controls.MyButton text="Crear" variant="contained" type="submit" />
       </form>
     </>
   );

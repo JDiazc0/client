@@ -2,30 +2,27 @@ import React, { useState, useEffect } from "react";
 import { Box, Container, Grid } from "@mui/material";
 
 import NavBar from "../components/NavBar";
-import CreateRawMaterial from "../components/CreateRawMaterial";
-import UpdateRawMaterial from "../components/UpdateRawMaterial";
+import CreateProduct from "../components/CreateProduct";
 import Controls from "../components/controls/Controls";
 
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import "../styles/RawMaterials.css";
 
-import getRawMaterial from "../libs/getRawMaterial";
-import deleteRawMaterial from "../libs/deleteRawMaterial";
+import getProducts from "../libs/getProducts";
 
-export default function RawMaterials() {
+export default function Products() {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isUpdateVisible, setIsUpdateVisible] = useState(false);
   const [data, setData] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null);
-  const titles = ["Nombre", "Costo $", "Peso (gr)"];
-  const fields = ["name", "cost", "weight"];
+  const titles = ["Nombre", "Precio $"];
+  const fields = ["name", "price"];
 
   const fetchData = async () => {
-    const res = await getRawMaterial();
-    setData(res.rawMaterial);
+    const res = await getProducts();
+    setData(res.produts);
   };
 
   useEffect(() => {
@@ -46,16 +43,6 @@ export default function RawMaterials() {
     }
   };
 
-  const handleDelete = async () => {
-    try {
-      const res = await deleteRawMaterial(data[selectedRow]._id);
-      console.log("Delete successful", res);
-      fetchData();
-    } catch (e) {
-      console.error("Error deleting raw material", e);
-    }
-  };
-
   const handleRowSelect = (index) => {
     setSelectedRow(index);
   };
@@ -67,7 +54,7 @@ export default function RawMaterials() {
         <Container fixed>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <h1>Materia prima</h1>
+              <h1>Productos</h1>
             </Grid>
             <Grid item xs={6}>
               <Controls.MyTable
@@ -80,18 +67,9 @@ export default function RawMaterials() {
             </Grid>
             {isFormVisible && (
               <Grid item xs={6} container justifyContent={"center"}>
-                <CreateRawMaterial
+                <CreateProduct
                   refreshData={fetchData}
                   hide={() => setIsFormVisible(false)}
-                />
-              </Grid>
-            )}
-            {isUpdateVisible && (
-              <Grid item xs={6} container justifyContent={"center"}>
-                <UpdateRawMaterial
-                  data={data[selectedRow]}
-                  refreshData={fetchData}
-                  hide={() => setIsUpdateVisible(false)}
                 />
               </Grid>
             )}
@@ -110,12 +88,7 @@ export default function RawMaterials() {
           />
         )}
         {selectedRow !== null && (
-          <Controls.MyFab
-            icon={<DeleteIcon />}
-            onClick={handleDelete}
-            x="20px"
-            y="180px"
-          />
+          <Controls.MyFab icon={<DeleteIcon />} x="20px" y="180px" />
         )}
       </Box>
     </>
