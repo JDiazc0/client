@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Controls from "./controls/Controls";
-
+import updateProduct from "../libs/updateProduct";
 import getRawMaterial from "../libs/getRawMaterial";
-import uploadProduct from "../libs/uploadProduct";
 
-export default function CreateProduct(props) {
-  const { refreshData, hide } = props;
+export default function UpdateProduct(props) {
+  const { product, refreshData, hide } = props;
   const [data, setData] = useState([]);
   const [selectedMaterial, setSelectedMaterial] = useState("");
   const [quantity, setQuantity] = useState("");
   const [materials, setRawMaterials] = useState([]);
 
+  const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
 
   const titles = ["Materias Primas", "Cantidad (gr)"];
   const fields = ["name", "quantity"];
 
+  //Add material to table
   const handleAdd = () => {
     if (selectedMaterial && quantity) {
       const selectedMaterialData = data.find(
@@ -31,13 +32,17 @@ export default function CreateProduct(props) {
       setQuantity("");
     }
   };
+  //end Add Material
 
+  //Delete material from table
   const handleDelete = () => {
     const newRawMaterials = [...materials];
     newRawMaterials.pop();
     setRawMaterials(newRawMaterials);
   };
+  //end delete material
 
+  //Get raw material from bd
   useEffect(() => {
     const fetchData = async () => {
       const res = await getRawMaterial();
@@ -46,6 +51,23 @@ export default function CreateProduct(props) {
 
     fetchData();
   }, []);
+  //end get raw material
+
+  //product received
+  useEffect(() => {
+    if (product && product.materials) {
+      const receivedProduct = product.materials.map((item) => ({
+        value: item.material._id,
+        name: item.material.name,
+        quantity: item.quantity.toString(),
+      }));
+
+      setRawMaterials(receivedProduct);
+      setId(product._id);
+      setName(product.name);
+      setPrice(product.price);
+    }
+  }, [product]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -56,27 +78,24 @@ export default function CreateProduct(props) {
     }));
 
     try {
-      const response = await uploadProduct(
-        name,
-        Number(price),
-        materialsToSend
-      );
-      console.log("Upload successful", response);
+      const res = await updateProduct(id, name, Number(price), materialsToSend);
+      console.log("Update successful", res);
       refreshData();
       hide();
     } catch (error) {
-      console.error("Error uploading product", error);
+      console.error("Error updating product", error);
     }
+    refreshData();
+    hide();
   };
 
   return (
     <>
       <form onSubmit={handleSubmit}>
         <Controls.InputNew
-          placeholder="Ex: Helado de pollo"
+          placeholder={name}
           labeltext="Nombre"
           type="text"
-          required={true}
           onChange={(e) => setName(e.target.value)}
         />
         <Controls.MySelector
@@ -111,10 +130,9 @@ export default function CreateProduct(props) {
           />
         )}
         <Controls.InputNew
-          placeholder="Ex: $ 3000"
+          placeholder={price}
           labeltext="Precio"
           type="number"
-          required={true}
           onChange={(e) => setPrice(e.target.value)}
         />
         <Controls.MyButton text="Enviar" variant="contained" type="submit" />

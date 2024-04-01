@@ -10,7 +10,6 @@ import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import "../styles/RawMaterials.css";
 
 import getRawMaterial from "../libs/getRawMaterial";
 import deleteRawMaterial from "../libs/deleteRawMaterial";

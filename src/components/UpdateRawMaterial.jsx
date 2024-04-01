@@ -33,7 +33,7 @@ export default function UpdateRawMaterial(props) {
       refreshData();
       hide();
     } catch (error) {
-      console.error("Error uploading raw materials", error);
+      console.error("Error updating raw materials", error);
     }
   };
 
