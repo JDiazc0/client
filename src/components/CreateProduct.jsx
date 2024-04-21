@@ -81,6 +81,7 @@ export default function CreateProduct(props) {
         />
         <Controls.MySelector
           label="Materia prima"
+          quantitylabel="150 gr"
           data={data}
           value={selectedMaterial}
           onChange={setSelectedMaterial}
@@ -117,7 +118,7 @@ export default function CreateProduct(props) {
           required={true}
           onChange={(e) => setPrice(e.target.value)}
         />
-        <Controls.MyButton text="Enviar" variant="contained" type="submit" />
+        <Controls.MyButton text="Crear" variant="contained" type="submit" />
       </form>
     </>
   );

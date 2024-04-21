@@ -2,36 +2,41 @@ import React, { useState, useEffect } from "react";
 import { Box, Container, Grid } from "@mui/material";
 
 import NavBar from "../components/NavBar";
-import CreateProduct from "../components/CreateProduct";
-import UpdateProduct from "../components/UpdateProduct";
 import Controls from "../components/controls/Controls";
+import CreateInventory from "../components/CreateInventory";
+import UpdateInventory from "../components/UpdateInventory";
 
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import getProducts from "../libs/getProducts";
-import deleteProduct from "../libs/deleteProduct";
+import getInventory from "../libs/getInventory";
+import deleteInventory from "../libs/deleteInventory";
 
-export default function Products() {
-  const [isFormVisible, setIsFormVisible] = useState(false);
-  const [isUpdateVisible, setIsUpdateVisible] = useState(false);
+export default function Inventory() {
   const [data, setData] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null);
-  const titles = ["Nombre", "Precio $"];
-  const fields = ["name", "price"];
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [isUpdateVisible, setIsUpdateVisible] = useState(false);
+
+  const titles = ["Producto", "Cantidad"];
+  const fields = ["product.name", "amount"];
 
   const fetchData = async () => {
-    const res = await getProducts();
-    setData(res.products);
+    const res = await getInventory();
+    setData(res.Inventory);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  const handleNew = () => {
+  const handleRowSelect = (index) => {
+    setSelectedRow(index);
+  };
+
+  const handleNewInventory = () => {
     setIsFormVisible(!isFormVisible);
     if (isUpdateVisible) {
       setIsUpdateVisible(false);
@@ -45,13 +50,9 @@ export default function Products() {
     }
   };
 
-  const handleRowSelect = (index) => {
-    setSelectedRow(index);
-  };
-
   const handleDelete = async () => {
     try {
-      const res = await deleteProduct(data[selectedRow]._id);
+      const res = await deleteInventory(data[selectedRow]._id);
       console.log("Delete successful", res);
       fetchData();
     } catch (e) {
@@ -66,7 +67,7 @@ export default function Products() {
         <Container fixed>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <h1>Productos</h1>
+              <h1>Inventario</h1>
             </Grid>
             <Grid item xs={6}>
               <Controls.MyTable
@@ -79,7 +80,7 @@ export default function Products() {
             </Grid>
             {isFormVisible && (
               <Grid item xs={6} container justifyContent={"center"}>
-                <CreateProduct
+                <CreateInventory
                   refreshData={fetchData}
                   hide={() => setIsFormVisible(false)}
                 />
@@ -87,8 +88,8 @@ export default function Products() {
             )}
             {isUpdateVisible && (
               <Grid item xs={6} container justifyContent={"center"}>
-                <UpdateProduct
-                  product={data[selectedRow]}
+                <UpdateInventory
+                  inventory={data[selectedRow]}
                   refreshData={fetchData}
                   hide={() => setIsUpdateVisible(false)}
                 />
@@ -98,14 +99,14 @@ export default function Products() {
         </Container>
         <Controls.MyFab
           icon={isFormVisible ? <CloseIcon /> : <AddIcon />}
-          onClick={handleNew}
+          onClick={handleNewInventory}
         />
         {selectedRow !== null && (
           <Controls.MyFab
             icon={isUpdateVisible ? <CloseIcon /> : <EditIcon />}
-            onClick={handleUpdate}
             x="20px"
             y="100px"
+            onClick={handleUpdate}
           />
         )}
         {selectedRow !== null && (

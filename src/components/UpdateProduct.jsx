@@ -85,8 +85,6 @@ export default function UpdateProduct(props) {
     } catch (error) {
       console.error("Error updating product", error);
     }
-    refreshData();
-    hide();
   };
 
   return (
@@ -135,7 +133,11 @@ export default function UpdateProduct(props) {
           type="number"
           onChange={(e) => setPrice(e.target.value)}
         />
-        <Controls.MyButton text="Enviar" variant="contained" type="submit" />
+        <Controls.MyButton
+          text="Actualizar"
+          variant="contained"
+          type="submit"
+        />
       </form>
     </>
   );

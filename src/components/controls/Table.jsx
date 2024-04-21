@@ -25,6 +25,19 @@ export default function MyTable(props) {
     }
   };
 
+  const getFieldContent = (item, field) => {
+    const fieldKeys = field.split(".");
+    let content = item;
+    for (const key of fieldKeys) {
+      if (content && content.hasOwnProperty(key)) {
+        content = content[key];
+      } else {
+        return "";
+      }
+    }
+    return content;
+  };
+
   return (
     <>
       <TableContainer>
@@ -53,7 +66,7 @@ export default function MyTable(props) {
                   <TableCell
                     align={index === 0 ? "inherit" : "right"}
                     key={index}>
-                    {item[field]}
+                    {getFieldContent(item, field)}
                   </TableCell>
                 ))}
               </TableRow>

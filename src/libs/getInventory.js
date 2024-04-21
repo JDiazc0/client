@@ -1,12 +1,12 @@
 import axios from "axios";
 
-async function getProducts() {
+async function getInventory() {
   try {
     const res = await axios.get(
-      "https://erm-custome-backend.onrender.com/api/products",
+      "https://erm-custome-backend.onrender.com/api/inventory",
       { headers: { "Content-Type": "application/json" } }
     );
-    return { products: res.data };
+    return { Inventory: res.data };
   } catch (e) {
     if (e.response.status === 401) {
       return { status: 401 };
@@ -15,4 +15,4 @@ async function getProducts() {
   }
 }
 
-export default getProducts;
+export default getInventory;

@@ -7,7 +7,15 @@ import InputBase from "@mui/material/InputBase";
 import clsx from "clsx";
 
 export default function MySelector(props) {
-  const { label, data, value, onChange, quantity, onQuantityChange } = props;
+  const {
+    label,
+    data,
+    value,
+    onChange,
+    quantity,
+    onQuantityChange,
+    quantitylabel,
+  } = props;
 
   const handleSelectChange = (event) => {
     onChange(event.target.value);
@@ -35,7 +43,7 @@ export default function MySelector(props) {
       <FormControl required>
         <Label>Cantidad</Label>
         <TextField
-          placeholder="150gr"
+          placeholder={quantitylabel}
           type="number"
           value={quantity}
           onChange={handleQuantityChange}
