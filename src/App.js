@@ -4,12 +4,13 @@ import "./App.css";
 import RawMaterials from "./pages/RawMaterials";
 import Products from "./pages/Products";
 import Inventory from "./pages/Inventory";
+import CreateOrder from "./pages/CreateOrder";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" exact element={<h1>Crear pedido</h1>}></Route>
+        <Route path="/" exact element={<CreateOrder />}></Route>
         <Route path="/lista-pedidos" exact element={<h1>Pedidos</h1>}></Route>
         <Route path="/lista-clientes" exact element={<h1>Clientes</h1>}></Route>
         <Route path="/productos" exact element={<Products />}></Route>

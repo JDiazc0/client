@@ -3,6 +3,7 @@ import MyButton from "./Button";
 import MySelector from "./Selector";
 import MyTable from "./Table";
 import MyFab from "./RoundedButton";
+import MyAutocomplete from "./Autocomplete";
 
 const Controls = {
   InputNew,
@@ -10,6 +11,7 @@ const Controls = {
   MySelector,
   MyTable,
   MyFab,
+  MyAutocomplete,
 };
 
 export default Controls;
