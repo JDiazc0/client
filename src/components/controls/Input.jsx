@@ -5,8 +5,16 @@ import { styled } from "@mui/system";
 import clsx from "clsx";
 
 export default function InputNew(props) {
-  const { placeholder, labeltext, type, required, onChange, value, readOnly } =
-    props;
+  const {
+    placeholder,
+    labeltext,
+    type,
+    required,
+    onChange,
+    value,
+    readOnly,
+    size,
+  } = props;
 
   const isRequired = required !== undefined && required;
   const isReadonly = readOnly !== undefined && readOnly;
@@ -19,6 +27,7 @@ export default function InputNew(props) {
         type={type}
         onChange={onChange}
         readOnly={isReadonly}
+        sx={{ width: size }}
       />
     </FormControl>
   );

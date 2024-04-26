@@ -109,17 +109,20 @@ export default function SearchClient() {
                 fields={fields}
                 selectable={true}
                 onRowSelect={handleRowSelect}
+                maxHeight={250}
               />
             </Grid>
             <Grid item xs={12}>
               <div style={{ display: "flex", gap: "10px" }}>
-                <Controls.MyButton
-                  text="Seleccionar cliente"
-                  type="button"
-                  variant="outlined"
-                  onClick={handleSeletedClient}
-                  size={200}
-                />
+                {selectedRow != null && (
+                  <Controls.MyButton
+                    text="Seleccionar cliente"
+                    type="button"
+                    variant="outlined"
+                    onClick={handleSeletedClient}
+                    size={200}
+                  />
+                )}
                 <Controls.MyButton
                   text="Cancelar"
                   type="button"

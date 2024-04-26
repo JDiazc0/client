@@ -4,6 +4,7 @@ import { Box, Container, Grid } from "@mui/material";
 import NavBar from "../components/NavBar";
 import Controls from "../components/controls/Controls";
 import SearchClient from "../components/SearchClient";
+import OrderList from "../components/OrderList";
 
 export default function () {
   return (
@@ -17,6 +18,9 @@ export default function () {
             </Grid>
             <Grid item xs={12}>
               <SearchClient />
+            </Grid>
+            <Grid item xs={12}>
+              <OrderList />
             </Grid>
           </Grid>
         </Container>

@@ -8,7 +8,16 @@ import TableRow from "@mui/material/TableRow";
 import Checkbox from "@mui/material/Checkbox";
 
 export default function MyTable(props) {
-  const { titles, content, fields, selectable, onRowSelect } = props;
+  const {
+    titles,
+    content,
+    fields,
+    selectable,
+    onRowSelect,
+    maxHeight = 600,
+    tax = false,
+    total,
+  } = props;
   const [selectedRow, setSelectedRow] = useState(null);
 
   const handleRowClick = (index) => {
@@ -40,8 +49,8 @@ export default function MyTable(props) {
 
   return (
     <>
-      <TableContainer>
-        <Table sx={{ minWidth: 400 }}>
+      <TableContainer style={{ maxHeight: maxHeight, overflow: "auto" }}>
+        <Table sx={{ minWidth: 400 }} stickyHeader>
           <TableHead>
             <TableRow>
               {selectable && <TableCell padding="checkbox"></TableCell>}
@@ -71,6 +80,13 @@ export default function MyTable(props) {
                 ))}
               </TableRow>
             ))}
+            {tax && (
+              <TableRow>
+                <TableCell rowSpan={1} />
+                <TableCell colSpan={2}>Total pedido</TableCell>
+                <TableCell align="right">{total}</TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
