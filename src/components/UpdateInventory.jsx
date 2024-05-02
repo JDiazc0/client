@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Controls from "./controls/Controls";
-import updateInventory from "../libs/updateInventory";
+import updateInventory from "../libs/Inventory/updateInventory";
 
 export default function UpdateInventory(props) {
   const { inventory, refreshData, hide } = props;

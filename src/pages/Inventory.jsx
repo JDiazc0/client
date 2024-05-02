@@ -11,8 +11,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import getInventory from "../libs/getInventory";
-import deleteInventory from "../libs/deleteInventory";
+import getInventory from "../libs/Inventory/getInventory";
+import deleteInventory from "../libs/Inventory/deleteInventory";
 
 export default function Inventory() {
   const [data, setData] = useState([]);

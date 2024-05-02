@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import Controls from "./controls/Controls";
-import updateProduct from "../libs/updateProduct";
-import getRawMaterial from "../libs/getRawMaterial";
+import updateProduct from "../libs/Products/updateProduct";
+import getRawMaterial from "../libs/RawMaterial/getRawMaterial";
 
 export default function UpdateProduct(props) {
   const { product, refreshData, hide } = props;

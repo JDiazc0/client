@@ -11,8 +11,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import getProducts from "../libs/getProducts";
-import deleteProduct from "../libs/deleteProduct";
+import getProducts from "../libs/Products/getProducts";
+import deleteProduct from "../libs/Products/deleteProduct";
 
 export default function Products() {
   const [isFormVisible, setIsFormVisible] = useState(false);

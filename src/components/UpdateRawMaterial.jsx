@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Controls from "./controls/Controls";
-import updateRawMaterial from "../libs/updateRawMaterial";
+import updateRawMaterial from "../libs/RawMaterial/updateRawMaterial";
 
 export default function UpdateRawMaterial(props) {
   const { data, refreshData, hide } = props;

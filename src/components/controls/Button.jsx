@@ -17,8 +17,9 @@ export default function MyButton(props) {
 }
 
 const StyledButton = styled(Button)(({ theme, variant }) => ({
-  width: 400,
-  margin: theme.spacing(1),
+  width: 420,
+  marginTop: 15,
+  marginBottom: 0,
   backgroundColor: variant === "contained" ? purple[400] : "transparent",
   color: variant === "contained" ? "#fff" : purple[700],
   border: variant === "outlined" ? `1px solid ${purple[900]}` : "none",

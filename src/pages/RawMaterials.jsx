@@ -11,8 +11,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import getRawMaterial from "../libs/getRawMaterial";
-import deleteRawMaterial from "../libs/deleteRawMaterial";
+import getRawMaterial from "../libs/RawMaterial/getRawMaterial";
+import deleteRawMaterial from "../libs/RawMaterial/deleteRawMaterial";
 
 export default function RawMaterials() {
   const [isFormVisible, setIsFormVisible] = useState(false);

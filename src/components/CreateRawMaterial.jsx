@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import Controls from "./controls/Controls";
-import uploadRawMaterial from "../libs/uploadRawMaterial";
+import uploadRawMaterial from "../libs/RawMaterial/uploadRawMaterial";
 
 export default function CreateRawMaterial(props) {
   const { refreshData, hide } = props;

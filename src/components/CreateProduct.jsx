@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import Controls from "./controls/Controls";
 
-import getRawMaterial from "../libs/getRawMaterial";
-import uploadProduct from "../libs/uploadProduct";
+import getRawMaterial from "../libs/RawMaterial/getRawMaterial";
+import uploadProduct from "../libs/Products/uploadProduct";
 
 export default function CreateProduct(props) {
   const { refreshData, hide } = props;

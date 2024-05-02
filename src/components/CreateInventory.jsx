@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import Controls from "./controls/Controls";
 
-import getProducts from "../libs/getProducts";
-import uploadInventory from "../libs/uploadInventory";
+import getProducts from "../libs/Products/getProducts";
+import uploadInventory from "../libs/Inventory/uploadInventory";
 
 export default function CreateInventory(props) {
   const { refreshData, hide } = props;
