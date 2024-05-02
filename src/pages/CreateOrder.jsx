@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Container, Grid } from "@mui/material";
 
 import NavBar from "../components/NavBar";
-import Controls from "../components/controls/Controls";
 import SearchClient from "../components/SearchClient";
 import OrderList from "../components/OrderList";
 
-export default function () {
+export default function CreateOrder() {
+  const [selectedClientId, setSelectedClientId] = useState(null);
+
+  const handleClientSelect = (clientId) => {
+    setSelectedClientId(clientId);
+  };
+
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -17,10 +22,10 @@ export default function () {
               <h1>Crear Pedido</h1>
             </Grid>
             <Grid item xs={12}>
-              <SearchClient />
+              <SearchClient onSelectClient={handleClientSelect} />
             </Grid>
             <Grid item xs={12}>
-              <OrderList />
+              <OrderList clientId={selectedClientId} />
             </Grid>
           </Grid>
         </Container>

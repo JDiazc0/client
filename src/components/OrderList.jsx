@@ -3,15 +3,18 @@ import React, { useState, useEffect } from "react";
 import Controls from "./controls/Controls";
 import { Grid } from "@mui/material";
 
-import getProducts from "../libs/getProducts";
+import getProducts from "../libs/Products/getProducts";
+import uploadOrder from "../libs/Order/uploadOrder";
 
-export default function OrderList() {
-  const [products, setProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [orderList, setOrderList] = useState([]);
-  const [totalOrder, setTotalOrder] = useState("");
-  const [formValid, setFormValid] = useState(true);
+export default function OrderList(props) {
+  const { clientId } = props;
+
+  const [products, setProducts] = useState([]); //Listado de productos
+  const [selectedProduct, setSelectedProduct] = useState(""); // Producto seleccionado
+  const [quantity, setQuantity] = useState(""); // Cantidad del producto
+  const [orderList, setOrderList] = useState([]); // Productos en la orden
+  const [totalOrder, setTotalOrder] = useState(""); //Costo total de la orden
+  const [formValid, setFormValid] = useState(true); // Validador de producto y cantidad
 
   const titles = ["Descripción", "CANT", "Precio unitario", "Monto"];
   const fields = ["name", "quantity", "unitPrice", "totalPrice"];
@@ -60,6 +63,29 @@ export default function OrderList() {
       setTotalOrder((prevTotal) => prevTotal - lastItem.totalPrice);
     }
   };
+
+  const handleCreateOrder = async () => {
+    if (clientId != null) {
+      const productsToSend = orderList.map((products) => ({
+        product: products.value,
+        quantity: Number(products.quantity),
+      }));
+
+      try {
+        const response = await uploadOrder(
+          clientId,
+          productsToSend,
+          Number(totalOrder)
+        );
+        console.log("Upload successful", response);
+      } catch (error) {
+        console.error("Error uploading order", error);
+      }
+    } else {
+      alert("Por favor, Seleccione o digite los datos de un cliente");
+    }
+  };
+
   return (
     <>
       <Grid container spacing={2}>
@@ -113,6 +139,7 @@ export default function OrderList() {
             text="Finalizar pedido"
             type="button"
             variant="contained"
+            onClick={handleCreateOrder}
           />
         </Grid>
       </Grid>
