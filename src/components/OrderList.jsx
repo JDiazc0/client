@@ -7,7 +7,7 @@ import getProducts from "../libs/Products/getProducts";
 import uploadOrder from "../libs/Order/uploadOrder";
 
 export default function OrderList(props) {
-  const { clientId } = props;
+  const { clientId, onOrderSubmitSuccess } = props;
 
   const [products, setProducts] = useState([]); //Listado de productos
   const [selectedProduct, setSelectedProduct] = useState(""); // Producto seleccionado
@@ -78,6 +78,7 @@ export default function OrderList(props) {
           Number(totalOrder)
         );
         console.log("Upload successful", response);
+        onOrderSubmitSuccess();
       } catch (error) {
         console.error("Error uploading order", error);
       }

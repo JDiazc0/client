@@ -7,9 +7,15 @@ import OrderList from "../components/OrderList";
 
 export default function CreateOrder() {
   const [selectedClientId, setSelectedClientId] = useState(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const handleClientSelect = (clientId) => {
     setSelectedClientId(clientId);
+  };
+
+  const handleOrderSubmitSuccess = () => {
+    setSelectedClientId(null);
+    setRefreshKey((prevKey) => prevKey + 1);
   };
 
   return (
@@ -22,10 +28,17 @@ export default function CreateOrder() {
               <h1>Crear Pedido</h1>
             </Grid>
             <Grid item xs={12}>
-              <SearchClient onSelectClient={handleClientSelect} />
+              <SearchClient
+                key={refreshKey}
+                onSelectClient={handleClientSelect}
+              />
             </Grid>
             <Grid item xs={12}>
-              <OrderList clientId={selectedClientId} />
+              <OrderList
+                key={refreshKey}
+                clientId={selectedClientId}
+                onOrderSubmitSuccess={handleOrderSubmitSuccess}
+              />
             </Grid>
           </Grid>
         </Container>
