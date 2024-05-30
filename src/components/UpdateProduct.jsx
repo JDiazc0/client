@@ -91,9 +91,10 @@ export default function UpdateProduct(props) {
     <>
       <form onSubmit={handleSubmit}>
         <Controls.InputNew
-          placeholder={name}
+          placeholder="Nombre"
           labeltext="Nombre"
           type="text"
+          value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <Controls.MySelector
@@ -128,9 +129,10 @@ export default function UpdateProduct(props) {
           />
         )}
         <Controls.InputNew
-          placeholder={price}
+          placeholder="Precio"
           labeltext="Precio"
           type="number"
+          value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
         <Controls.MyButton

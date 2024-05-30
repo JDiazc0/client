@@ -41,19 +41,19 @@ export default function UpdateRawMaterial(props) {
     <>
       <form onSubmit={handleSubmit}>
         <Controls.InputNew
-          placeholder={name}
+          value={name}
           labeltext="Nombre"
           type="text"
           onChange={(e) => setName(e.target.value)}
         />
         <Controls.InputNew
-          placeholder={weight ? weight.toString() : "Peso"}
+          value={weight ? weight.toString() : "Peso"}
           labeltext="Peso (gr)"
           type="number"
           onChange={(e) => setWeight(e.target.value)}
         />
         <Controls.InputNew
-          placeholder={cost ? cost.toString() : "Precio"}
+          value={cost ? cost.toString() : "Precio"}
           labeltext="Precio"
           type="number"
           onChange={(e) => setCost(e.target.value)}
