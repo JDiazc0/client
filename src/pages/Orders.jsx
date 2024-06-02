@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Container, Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import NavBar from "../components/NavBar";
 import Controls from "../components/controls/Controls";
@@ -11,6 +12,7 @@ import Edit from "@mui/icons-material/Edit";
 export default function Orders() {
   const [orders, setOrders] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null);
+  const navigate = useNavigate();
 
   const titles = ["Cliente", "Mascota", "Dirección", "Costo"];
   const fields = [
@@ -33,6 +35,13 @@ export default function Orders() {
     setSelectedRow(index);
   };
 
+  const handleFabClick = () => {
+    if (selectedRow !== null) {
+      const selectedOrderId = orders[selectedRow]._id;
+      navigate(`/detalles-pedido/${selectedOrderId}`);
+    }
+  };
+
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -53,7 +62,7 @@ export default function Orders() {
             </Grid>
           </Grid>
         </Container>
-        <Controls.MyFab icon={<Edit />} />
+        <Controls.MyFab icon={<Edit />} onClick={handleFabClick} />
       </Box>
     </>
   );
