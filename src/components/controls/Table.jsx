@@ -9,14 +9,15 @@ import Checkbox from "@mui/material/Checkbox";
 
 export default function MyTable(props) {
   const {
-    titles,
-    content,
-    fields,
-    selectable,
+    titles = [],
+    content = [],
+    fields = [],
+    selectable = false,
     onRowSelect,
     maxHeight = 600,
     tax = false,
     total,
+    textTax,
   } = props;
   const [selectedRow, setSelectedRow] = useState(null);
 
@@ -35,6 +36,7 @@ export default function MyTable(props) {
   };
 
   const getFieldContent = (item, field) => {
+    if (!item) return "";
     const fieldKeys = field.split(".");
     let content = item;
     for (const key of fieldKeys) {
@@ -47,49 +49,49 @@ export default function MyTable(props) {
     return content;
   };
 
+  if (!content || content.length === 0) {
+    return <div>No data available</div>;
+  }
+
   return (
-    <>
-      <TableContainer style={{ maxHeight: maxHeight, overflow: "auto" }}>
-        <Table sx={{ minWidth: 400 }} stickyHeader>
-          <TableHead>
-            <TableRow>
-              {selectable && <TableCell padding="checkbox"></TableCell>}
-              {titles.map((title, index) => (
+    <TableContainer style={{ maxHeight: maxHeight, overflow: "auto" }}>
+      <Table sx={{ minWidth: 400 }} stickyHeader>
+        <TableHead>
+          <TableRow>
+            {selectable && <TableCell padding="checkbox"></TableCell>}
+            {titles.map((title, index) => (
+              <TableCell align={index === 0 ? "inherit" : "right"} key={index}>
+                {title}
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {content.map((item, index) => (
+            <TableRow key={index} onClick={() => handleRowClick(index)}>
+              {selectable && (
+                <TableCell padding="checkbox">
+                  <Checkbox checked={selectedRow === index} />
+                </TableCell>
+              )}
+              {fields.map((field, index) => (
                 <TableCell
                   align={index === 0 ? "inherit" : "right"}
                   key={index}>
-                  {title}
+                  {getFieldContent(item, field)}
                 </TableCell>
               ))}
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {content.map((item, index) => (
-              <TableRow key={index} onClick={() => handleRowClick(index)}>
-                {selectable && (
-                  <TableCell padding="checkbox">
-                    <Checkbox checked={selectedRow === index} />
-                  </TableCell>
-                )}
-                {fields.map((field, index) => (
-                  <TableCell
-                    align={index === 0 ? "inherit" : "right"}
-                    key={index}>
-                    {getFieldContent(item, field)}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-            {tax && (
-              <TableRow>
-                <TableCell rowSpan={1} />
-                <TableCell colSpan={2}>Total pedido</TableCell>
-                <TableCell align="right">{total}</TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </>
+          ))}
+          {tax && (
+            <TableRow>
+              <TableCell rowSpan={1} />
+              <TableCell colSpan={2}>{textTax}</TableCell>
+              <TableCell align="right">{total}</TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
