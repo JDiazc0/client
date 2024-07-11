@@ -133,6 +133,7 @@ export default function OrderList(props) {
             content={orderList}
             tax={true}
             total={totalOrder}
+            textTax={"Total pedido"}
           />
         </Grid>
         <Grid item xs={12}>

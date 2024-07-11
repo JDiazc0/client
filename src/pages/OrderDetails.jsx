@@ -6,12 +6,19 @@ import NavBar from "../components/NavBar";
 import Controls from "../components/controls/Controls";
 
 import getOrder from "../libs/Order/getOrder";
+import getInventory from "../libs/Inventory/getInventory";
+
+import {
+  transformProductsData,
+  calculateMaterialsWithInventory,
+  filterInventoryData,
+} from "../libs/utils/calculationUtils";
 
 export default function OrderDetails() {
-  const [order, setOrder] = useState(null);
   const [orderPrice, setOrderPrice] = useState("");
   const [productsData, setProductsData] = useState([]);
   const [materialsNeeded, setMaterialsNeeded] = useState([]);
+  const [inventoryData, setInventoryData] = useState([]); // Renamed to inventoryData
   const { id } = useParams();
 
   const productTitles = [
@@ -25,7 +32,7 @@ export default function OrderDetails() {
   const materialTitles = [
     "Nombre materia prima",
     "Cantidad unidades",
-    "Cantidad gramos",
+    "Cantidad (gr)",
     "Precio Total",
   ];
   const materialFields = [
@@ -35,79 +42,50 @@ export default function OrderDetails() {
     "totalCost",
   ];
 
-  const fetchData = async () => {
-    try {
-      const res = await getOrder(id);
-      const orderData = res.Order;
-      setOrder(orderData);
-      setOrderPrice(orderData.price);
-      calculateMaterials(orderData);
-      transformProductsData(orderData);
-    } catch (error) {
-      console.error("Error fetching order:", error);
-    }
-  };
-
-  const calculateMaterials = (order) => {
-    const materialsMap = {};
-
-    order.products.forEach((orderProduct) => {
-      const product = orderProduct.product;
-      const quantity = orderProduct.quantity;
-
-      product.materials.forEach((material) => {
-        const materialId = material.material._id;
-        const requiredQuantity = material.quantity * quantity;
-
-        if (!materialsMap[materialId]) {
-          materialsMap[materialId] = {
-            material: material.material,
-            totalQuantity: 0,
-          };
-        }
-
-        materialsMap[materialId].totalQuantity += requiredQuantity;
-      });
-    });
-
-    const materialsList = Object.values(materialsMap).map((materialData) => {
-      const { material, totalQuantity } = materialData;
-      const unitsToBuy = Math.ceil(totalQuantity / material.weight);
-      const totalCost = unitsToBuy * material.cost;
-
-      return {
-        material: material.name,
-        totalQuantity,
-        unitsToBuy,
-        totalCost,
-      };
-    });
-
-    setMaterialsNeeded(materialsList);
-  };
-
-  const transformProductsData = (order) => {
-    const products = order.products.map((orderProduct) => {
-      return {
-        name: orderProduct.product.name,
-        quantity: orderProduct.quantity,
-        price: orderProduct.product.price,
-        totalPrice:
-          Number(orderProduct.quantity) * Number(orderProduct.product.price),
-      };
-    });
-    setProductsData(products);
-  };
+  const inventoryTitles = ["Nombre del Producto", "Cantidad"];
+  const inventoryFields = ["name", "quantity"];
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getOrder(id);
+        const orderData = res.Order;
+
+        const inventoryRes = await getInventory();
+        const inventoryData = inventoryRes.Inventory;
+
+        const filteredInventory = filterInventoryData(orderData, inventoryData);
+
+        setOrderPrice(orderData.price);
+        setProductsData(transformProductsData(orderData));
+        setMaterialsNeeded(
+          calculateMaterialsWithInventory(orderData, inventoryData)
+        );
+        setInventoryData(transformInventoryData(filteredInventory)); // Transform and set inventory data
+      } catch (error) {
+        console.error("Error fetching order:", error);
+      }
+    };
+
     if (id) {
       fetchData();
     }
   }, [id]);
 
   useEffect(() => {
-    console.log(productsData);
-  }, [productsData]);
+    console.log(inventoryData);
+    console.log(materialsNeeded);
+  }, [materialsNeeded, inventoryData]);
+
+  // Function to transform inventory data
+  const transformInventoryData = (inventory) => {
+    return inventory.map((item) => {
+      return {
+        name: item.product.name,
+        quantity: item.amount,
+      };
+    });
+  };
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -118,13 +96,22 @@ export default function OrderDetails() {
             <h1>Detalles del pedido</h1>
           </Grid>
           <Grid item xs={12}>
-            <h3>Productos</h3>
+            <h3>Productos pedidos</h3>
             <Controls.MyTable
               titles={productTitles}
               fields={productFields}
               content={productsData}
               tax={true}
               total={orderPrice}
+              textTax={"Total pedido"}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <h3>Productos en Inventario</h3>
+            <Controls.MyTable
+              titles={inventoryTitles}
+              fields={inventoryFields}
+              content={inventoryData}
             />
           </Grid>
           <Grid item xs={12}>
@@ -138,7 +125,18 @@ export default function OrderDetails() {
                 (acc, material) => acc + material.totalCost,
                 0
               )}
+              textTax={"Costo total de materias"}
             />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              margin: "50px 0",
+            }}>
+            <Controls.MyButton text={"Terminar pedido"} variant={"contained"} />
           </Grid>
         </Grid>
       </Container>

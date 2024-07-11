@@ -6,8 +6,10 @@ import NavBar from "../components/NavBar";
 import Controls from "../components/controls/Controls";
 
 import getOrders from "../libs/Order/getOrders";
+import deleteOrder from "../libs/Order/deleteOrder";
 
-import Edit from "@mui/icons-material/Edit";
+import FunctionsIcon from "@mui/icons-material/Functions";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
@@ -42,6 +44,16 @@ export default function Orders() {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const res = await deleteOrder(orders[selectedRow]._id);
+      console.log("Delete successful", res);
+      fetchData();
+    } catch (e) {
+      console.error("Error deleting product", e);
+    }
+  };
+
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -62,7 +74,15 @@ export default function Orders() {
             </Grid>
           </Grid>
         </Container>
-        <Controls.MyFab icon={<Edit />} onClick={handleFabClick} />
+        <Controls.MyFab icon={<FunctionsIcon />} onClick={handleFabClick} />
+        {selectedRow !== null && (
+          <Controls.MyFab
+            icon={<DeleteIcon />}
+            x="20px"
+            y="90px"
+            onClick={handleDelete}
+          />
+        )}
       </Box>
     </>
   );
