@@ -1,14 +1,14 @@
 import axios from "axios";
 
-async function uploadInventory(product, amount) {
+async function uploadBalance(month, income, expenses) {
   try {
-    const baseUrl = process.env.REACT_APP_ERM_INVENTORY.replace(/\/$/, "");
+    const baseUrl = process.env.REACT_APP_ERM_BALANCE.replace(/\/$/, "");
     const res = await axios.post(
-      `${baseUrl}`,
-      { product, amount },
+      baseUrl,
+      { month, income, expenses },
       { headers: { "Content-Type": "application/json" } }
     );
-    return { Inventory: res.data };
+    return { balance: res.data };
   } catch (e) {
     if (e.response?.status === 401) {
       return { status: 401 };
@@ -17,4 +17,4 @@ async function uploadInventory(product, amount) {
   }
 }
 
-export default uploadInventory;
+export default uploadBalance;

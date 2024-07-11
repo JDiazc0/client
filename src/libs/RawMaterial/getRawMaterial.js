@@ -2,16 +2,16 @@ import axios from "axios";
 
 async function getRawMaterial() {
   try {
-    const res = await axios.get(
-      "https://erm-custome-backend.onrender.com/api/rawMaterials",
-      { headers: { "Content-Type": "application/json" } }
-    );
+    const baseUrl = process.env.REACT_APP_ERM_RAW_MATERIAL.replace(/\/$/, "");
+    const res = await axios.get(baseUrl, {
+      headers: { "Content-Type": "application/json" },
+    });
     return { rawMaterial: res.data };
   } catch (e) {
-    if (e.response.status === 401) {
+    if (e.response?.status === 401) {
       return { status: 401 };
     }
-    return { message: e.response.data.message };
+    return { message: e.response?.data?.message || "An error occurred" };
   }
 }
 

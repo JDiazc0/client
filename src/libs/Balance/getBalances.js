@@ -1,12 +1,12 @@
 import axios from "axios";
 
-async function deleteRawMaterial(MaterialId) {
+async function getBalances() {
   try {
-    const baseUrl = process.env.REACT_APP_ERM_RAW_MATERIAL.replace(/\/$/, "");
-    const res = await axios.delete(`${baseUrl}/${MaterialId}`, {
+    const baseUrl = process.env.REACT_APP_ERM_BALANCE.replace(/\/$/, "");
+    const res = await axios.get(baseUrl, {
       headers: { "Content-Type": "application/json" },
     });
-    return { deletedRawMaterial: res.data };
+    return { balances: res.data };
   } catch (e) {
     if (e.response?.status === 401) {
       return { status: 401 };
@@ -15,4 +15,4 @@ async function deleteRawMaterial(MaterialId) {
   }
 }
 
-export default deleteRawMaterial;
+export default getBalances;

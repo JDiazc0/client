@@ -2,8 +2,9 @@ import axios from "axios";
 
 async function uploadOrder(client, products, price) {
   try {
+    const baseUrl = process.env.REACT_APP_ERM_ORDER.replace(/\/$/, "");
     const res = await axios.post(
-      "https://erm-custome-backend.onrender.com/api/order",
+      `${baseUrl}`,
       { client, products, price },
       { headers: { "Content-Type": "application/json" } }
     );
@@ -15,7 +16,7 @@ async function uploadOrder(client, products, price) {
       }
       return { message: e.response.data.message };
     } else {
-      return { message: e.message[0] };
+      return { message: e.message || "An error occurred" };
     }
   }
 }
