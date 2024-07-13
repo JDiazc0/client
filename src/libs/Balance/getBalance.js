@@ -1,16 +1,13 @@
 import axios from "axios";
 
-async function getBalance(balanceId) {
+async function getBalances() {
   try {
     const baseUrl = process.env.REACT_APP_ERM_BALANCE.replace(/\/$/, "");
-    const res = await axios.get(`${baseUrl}/${balanceId}`, {
+    const res = await axios.get(baseUrl, {
       headers: { "Content-Type": "application/json" },
     });
-    return { balance: res.data };
+    return { balances: res.data };
   } catch (e) {
-    if (e.response?.status === 404) {
-      return { status: 404, message: "Balance not found" };
-    }
     if (e.response?.status === 401) {
       return { status: 401 };
     }
@@ -18,4 +15,4 @@ async function getBalance(balanceId) {
   }
 }
 
-export default getBalance;
+export default getBalances;

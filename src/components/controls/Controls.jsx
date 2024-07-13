@@ -4,6 +4,7 @@ import MySelector from "./Selector";
 import MyTable from "./Table";
 import MyFab from "./RoundedButton";
 import MyAutocomplete from "./Autocomplete";
+import MyBox from "./BalanceBox";
 
 const Controls = {
   InputNew,
@@ -12,6 +13,7 @@ const Controls = {
   MyTable,
   MyFab,
   MyAutocomplete,
+  MyBox,
 };
 
 export default Controls;

@@ -1,6 +1,7 @@
 export const transformProductsData = (order) => {
   return order.products.map((orderProduct) => {
     return {
+      id: orderProduct.product._id,
       name: orderProduct.product.name,
       quantity: orderProduct.quantity,
       price: orderProduct.product.price,

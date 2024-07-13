@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Box, Container, Grid } from "@mui/material";
 
 import NavBar from "../components/NavBar";
 import Controls from "../components/controls/Controls";
-
 import getOrder from "../libs/Order/getOrder";
 import getInventory from "../libs/Inventory/getInventory";
-
 import {
   transformProductsData,
   calculateMaterialsWithInventory,
   filterInventoryData,
 } from "../libs/utils/calculationUtils";
+import {
+  updateOrCreateBalance,
+  updateInventoryForOrder,
+  removeOrder,
+} from "../libs/utils/orderUtils";
 
 export default function OrderDetails() {
   const [orderPrice, setOrderPrice] = useState("");
   const [productsData, setProductsData] = useState([]);
   const [materialsNeeded, setMaterialsNeeded] = useState([]);
-  const [inventoryData, setInventoryData] = useState([]); // Renamed to inventoryData
+  const [inventoryData, setInventoryData] = useState([]);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const productTitles = [
     "Nombre del Producto",
@@ -61,7 +65,7 @@ export default function OrderDetails() {
         setMaterialsNeeded(
           calculateMaterialsWithInventory(orderData, inventoryData)
         );
-        setInventoryData(transformInventoryData(filteredInventory)); // Transform and set inventory data
+        setInventoryData(transformInventoryData(filteredInventory));
       } catch (error) {
         console.error("Error fetching order:", error);
       }
@@ -72,15 +76,28 @@ export default function OrderDetails() {
     }
   }, [id]);
 
-  useEffect(() => {
-    console.log(inventoryData);
-    console.log(materialsNeeded);
-  }, [materialsNeeded, inventoryData]);
+  const handleFinishOrder = async () => {
+    const materialsCost = materialsNeeded.reduce(
+      (acc, material) => acc + material.totalCost,
+      0
+    );
+
+    console.log({ products: productsData }, inventoryData);
+
+    await updateOrCreateBalance(orderPrice, materialsCost);
+    await updateInventoryForOrder({ products: productsData }, inventoryData);
+    await removeOrder(id);
+
+    navigate(`/lista-pedidos`);
+  };
 
   // Function to transform inventory data
   const transformInventoryData = (inventory) => {
     return inventory.map((item) => {
+      console.log("invetory", item);
       return {
+        inventory_id: item._id,
+        product_id: item.product._id,
         name: item.product.name,
         quantity: item.amount,
       };
@@ -136,7 +153,11 @@ export default function OrderDetails() {
               justifyContent: "flex-end",
               margin: "50px 0",
             }}>
-            <Controls.MyButton text={"Terminar pedido"} variant={"contained"} />
+            <Controls.MyButton
+              text={"Terminar pedido"}
+              variant={"contained"}
+              onClick={handleFinishOrder}
+            />
           </Grid>
         </Grid>
       </Container>

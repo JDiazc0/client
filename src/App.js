@@ -8,6 +8,7 @@ import CreateOrder from "./pages/CreateOrder";
 import Clients from "./pages/Clients";
 import Orders from "./pages/Orders";
 import OrderDetails from "./pages/OrderDetails";
+import Balance from "./pages/Balance";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         <Route path="/lista-clientes" exact element={<Clients />}></Route>
         <Route path="/productos" exact element={<Products />}></Route>
         <Route path="/inventario" exact element={<Inventory />}></Route>
-        <Route path="/balance" exact element={<h1>balance</h1>}></Route>
+        <Route path="/balance" exact element={<Balance />}></Route>
         <Route path="/materias-primas" exact element={<RawMaterials />}></Route>
         <Route
           path="/detalles-pedido/:id"
